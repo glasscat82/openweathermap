@@ -1,0 +1,1 @@
+key = 'you_key_from_openweathermap'
