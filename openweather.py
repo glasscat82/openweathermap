@@ -10,7 +10,7 @@ def p(text, *args):
 def main():
     start = datetime.now()
     # ---- 
-    city = input('(Например Moscow) Введите город: ')    
+    city = input('(Например Москва) Введите город: ')    
     wm = OpenWeatherMap(key = key, city = city)
     r = wm.get_open_weather()
     p(wm.get_print(r))

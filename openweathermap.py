@@ -3,9 +3,9 @@ from datetime import datetime
 
 class OpenWeatherMap():
     """simple class for openweathermap.org"""
-    def __init__(self, key = 'you_key_from_openweathermap.org', city = 'Saint Petersburg', path = ''):
+    def __init__(self, key = 'you_key_from_openweathermap.org', city = 'Saint Petersburg', lang = 'ru'):
         self.key = key
-        self.path = path
+        self.lang = lang
         self.city = city
     
     @staticmethod
@@ -49,9 +49,18 @@ class OpenWeatherMap():
         key = self.key if key is None else key
         # return json from openweathermap.org
         try:
-            url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}&units=metric"
+            url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}&units=metric&lang={self.lang}"
             r = requests.get(url, timeout = 10).json()
             return r if 'cod' in r and r['cod'] == 200 else False
         except Exception as ex:
             # print(ex)
+            return False
+
+    def get_open_weather_id(self, id, key = None):
+        key = self.key if key is None else key
+        try:
+            url = f"https://api.openweathermap.org/data/2.5/weather?id={id}&appid={key}&units=metric&lang={self.lang}"
+            r = requests.get(url, timeout = 10).json()
+            return r if 'cod' in r and r['cod'] == 200 else False
+        except Exception as ex:
             return False
