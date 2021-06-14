@@ -25,24 +25,28 @@ class OpenWeatherMap():
         if r is False:
             return 'Проверте название города'
         # the text fields for weather
-        description_w = r["weather"][0]["main"]
-        wd = self.get_emoji(description_w)
-        city_w = r['name']
-        temp_w = r['main']['temp']
-        humidity_w = r["main"]["humidity"]
-        pressure_w = r['main']['pressure']
-        wind_w = r['wind']['speed']
+        try:            
+            wd = self.get_emoji(r["weather"][0]["main"])
+            city_w = r['name']
+            temp_w = r['main']['temp']
+            humidity_w = r["main"]["humidity"]
+            pressure_w = r['main']['pressure']
+            wind_w = r['wind']['speed']
 
-        sunrise_time = datetime.fromtimestamp(r['sys']['sunrise'])
-        sunset_time = datetime.fromtimestamp(r['sys']['sunset'])
-        length_day = sunset_time - sunrise_time
+            sunrise_time = datetime.fromtimestamp(r['sys']['sunrise'])
+            sunset_time = datetime.fromtimestamp(r['sys']['sunset'])
+            length_day = sunset_time - sunrise_time
 
-        return (f"*** {datetime.now().strftime('%d.%m.%Y %H:%M')} ***\n"
-              f"Погода в городе: {city_w}\nТемпература: {temp_w} C° {wd}\n"
-              f"Влажность: {humidity_w} %\nДавление: {pressure_w} мм.рт.ст\nВетер: {wind_w} м/с\n"
-              f"Восход солнца: {sunrise_time.strftime('%d.%m.%Y %H:%M')}\nЗакат солнца: {sunset_time.strftime('%d.%m.%Y %H:%M')}\nПродолжительность дня: {length_day}\n"
-              f"Хорошего дня!"
-        )
+            return (f"*** {datetime.now().strftime('%d.%m.%Y %H:%M')} ***\n"
+                f"Погода в городе: {city_w}\nТемпература: {temp_w} C° {wd}\n"
+                f"Влажность: {humidity_w} %\nДавление: {pressure_w} мм.рт.ст\nВетер: {wind_w} м/с\n"
+                f"Восход солнца: {sunrise_time.strftime('%d.%m.%Y %H:%M')}\n"
+                f"Закат солнца: {sunset_time.strftime('%d.%m.%Y %H:%M')}\n"
+                f"Продолжительность дня: {length_day}\n"
+                f"Хорошего дня!"
+            )
+        except Exception as ex:
+            return 'Проверте наличие переменной'
 
     def get_open_weather(self, city = None, key = None):
         city = self.city if city is None else city
